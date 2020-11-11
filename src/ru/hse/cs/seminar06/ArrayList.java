@@ -15,6 +15,7 @@ public class ArrayList<T> implements MyList<T> {
      * Поле - храенние элементов коллекции
      */
     private Object[] array = new Object[INIT_SIZE];
+
     /**
      * Поле - указатель на крайнюю незаполненую ячейку коллекции
      */
@@ -22,15 +23,15 @@ public class ArrayList<T> implements MyList<T> {
 
 
     /**
-     * Возвращает элемент по указанному индексу
+     * Возвращает элемент коллекции по указаному индексу
      *
      * @param index индекс
-     * @return элемент
-     * @throws IndexOutOfBoundsException если индекс находится вне границ массива
+     * @return элемент коллекции
+     * @throws IndexOutOfBoundsException если индекс находился за пределами колекции
      */
     @Override
     public T get(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= size()) {
+        if (!checkBounds(index)) {
             throw new IndexOutOfBoundsException("Индекс находился вне границ массива!");
         }
 
@@ -44,7 +45,7 @@ public class ArrayList<T> implements MyList<T> {
      * @param item элемент
      */
     @Override
-    public void add(T item) {
+    public void put(T item) {
         // Если Массив почти полностью заполнился, увеличиваем его в DEFAULT_INCREASE раз
         if (pointer == array.length - 1) {
             resize(array.length * COEFFICIENT_RESIZE);
@@ -52,17 +53,18 @@ public class ArrayList<T> implements MyList<T> {
         array[pointer++] = item;
     }
 
+
     /**
-     * Удаление элемента по индексу
+     * Удаляет элемент коллекции по заданому индексу
      *
      * @param index индекс
-     * @return true, если элемент по индексу был удален, иначе false
+     * @throws IndexOutOfBoundsException если индекс находился за пределами коллекции
      */
     @Override
-    public boolean removeAt(int index) {
+    public void removeAt(int index) {
 
-        if (index < 0 || index >= size()) {
-            return false;
+        if (!checkBounds(index)) {
+            throw new IndexOutOfBoundsException("Индекс находился вне границ массива!");
         }
 
         System.arraycopy(array, index + 1, array, index, pointer - index);
@@ -71,8 +73,6 @@ public class ArrayList<T> implements MyList<T> {
         if (array.length > INIT_SIZE && pointer < array.length / COEFFICIENT_RESIZE) {
             resize(array.length / COEFFICIENT_RESIZE);
         }
-
-        return true;
     }
 
     /**
@@ -103,8 +103,31 @@ public class ArrayList<T> implements MyList<T> {
         return pointer;
     }
 
+    /**
+     * Очистка коллекции
+     */
+    @Override
+    public void clear() {
+        array = new Object[INIT_SIZE];
+        pointer = 0;
+    }
 
-    /*Вспомогательный метод для масштабирования.*/
+
+    /**
+     * Проверяет содержится ли индекс в пределах коллекции
+     *
+     * @param index индекс
+     * @return true если содержится, иначе false
+     */
+    private boolean checkBounds(int index) {
+        return index >= 0 && index < size();
+    }
+
+    /**
+     * Вспомогательный метод для масштабирования размера массива
+     *
+     * @param newLength новая длина массива
+     */
     private void resize(int newLength) {
         Object[] newArray = new Object[newLength];
         System.arraycopy(array, 0, newArray, 0, pointer);

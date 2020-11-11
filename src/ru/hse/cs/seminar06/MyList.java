@@ -3,27 +3,28 @@ package ru.hse.cs.seminar06;
 public interface MyList<T> {
 
     /**
-     * Получение элемента по индексу
+     * Возвращает элемент коллекции по указаному индексу
      *
      * @param index индекс
-     * @return элемент
+     * @return элемент коллекции
+     * @throws IndexOutOfBoundsException если индекс находился за пределами колекции
      */
-    T get(int index);
+    T get(int index) throws IndexOutOfBoundsException;
 
     /**
      * Добавление элемента в лист
      *
      * @param element элемент
      */
-    void add(T element);
+    void put(T element);
 
     /**
-     * Удаление элемента по индексу
+     * Удаляет элемент коллекции по заданому индексу
      *
      * @param index индекс
-     * @return true, если элемент по индексу был удален, иначе false
+     * @throws IndexOutOfBoundsException если индекс находился за пределами коллекции
      */
-    boolean removeAt(int index);
+    void removeAt(int index) throws IndexOutOfBoundsException;
 
     /**
      * Проверяет содержится ли элемент в коллекции
@@ -39,4 +40,9 @@ public interface MyList<T> {
      * @return размер коллекции
      */
     int size();
+
+    /**
+     * Очистка коллекции
+     */
+    void clear();
 }
