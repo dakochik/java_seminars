@@ -2,6 +2,9 @@ package ru.hse.cs.seminar06;
 
 
 public class ArrayList<T> implements MyList<T> {
+    // (П) - комментарии проверяющего.
+
+    // (П) Не минус, но, вероятно, было бы удобно иметь конструктор, принимающий на вход массив элементов.
 
     /**
      * Константа - начальный размер коллекции
@@ -84,7 +87,7 @@ public class ArrayList<T> implements MyList<T> {
     @Override
     public boolean contains(T element) {
 
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size(); i++) { // (П) Не минус, но, возможно, было бы логичнее брать поле напрямую, а не через метод.
 
             if (array[i].equals(element)) {
                 return true;
@@ -133,4 +136,6 @@ public class ArrayList<T> implements MyList<T> {
         System.arraycopy(array, 0, newArray, 0, pointer);
         array = newArray;
     }
+
+    // (П) больше нечего добавить. Минусов не вижу.
 }

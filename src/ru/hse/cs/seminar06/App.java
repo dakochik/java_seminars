@@ -21,6 +21,5 @@ public class App {
         list.put(10);
         list.put(100);
         System.out.println(list.get(1));
-
     }
 }
